@@ -30,7 +30,7 @@ const getReposOfUser = async (req, res, next) => {
 
     // affiliation defines which all repos should be included
     // like owner means - only those repos will be included in which the user is an owner
-    // values accepted = owner, collaborator, member
+    // values accepted = owner, collaborator, organization_member
     // can be passed as a list of comma-seperated values
     const affiliation = req.query.affiliation || "owner";
 
