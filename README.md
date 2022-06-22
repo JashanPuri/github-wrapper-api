@@ -20,7 +20,7 @@ You can create your personal access token with the help of this link https://doc
 
     Query Params:
     - username : name for user to get repos. if not provided repos of authenticated user will be listed
-    - affiliation : values accepted = owner, collaborator, member. can be passed as a list of comma-seperated values. default = owner
+    - affiliation : values accepted = owner, collaborator, organization_member. can be passed as a list of comma-seperated values. default = owner
     - filters : filters for number of stars and forks. example - filters=stars>=5&forks>=5. double equal-to sign for equality.
 
 2. POST /api/v1/repos - Create a repo for authenticated user.
@@ -80,7 +80,7 @@ You can create your personal access token with the help of this link https://doc
 
     Query Params:
     - username : name for user to get repos. if not provided repos of authenticated user will be listed
-    - affiliation : values accepted = owner, collaborator, member. can be passed as a list of comma-seperated values. default = owner
+    - affiliation : values accepted = owner, collaborator, organization_member. can be passed as a list of comma-seperated values. default = owner
     - filters : filters for number of commits. example - filters=commits>=5 . double equal-to sign for equality.
     - byOwner : boolean to indicate that commits to count should by made by owner only or not.
     - days : number of days since the commits should be counted. days=10 means commits of last '10' days
