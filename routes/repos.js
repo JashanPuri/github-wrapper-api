@@ -20,7 +20,7 @@ router.get("/:repoName/stargazers", isAuth, reposController.getRepoStargazers);
 
 router.get("/:repoName/topics", isAuth, reposTopicsController.getRepoTopics);
 
-router.patch(
+router.put(
   "/:repoName/topics",
   isAuth,
   reposTopicsController.updateRepoTopics
