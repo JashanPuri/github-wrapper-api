@@ -11,6 +11,12 @@ router.post("/", isAuth, reposController.createRepo);
 router.get("/", isAuth, reposController.getReposOfUser);
 
 router.get(
+  "/filter-with-commits",
+  isAuth,
+  reposController.filterReposWithCommits
+);
+
+router.get(
   "/:repoName/contributors",
   isAuth,
   reposController.getRepoContributors
@@ -20,11 +26,7 @@ router.get("/:repoName/stargazers", isAuth, reposController.getRepoStargazers);
 
 router.get("/:repoName/topics", isAuth, reposTopicsController.getRepoTopics);
 
-router.put(
-  "/:repoName/topics",
-  isAuth,
-  reposTopicsController.updateRepoTopics
-);
+router.put("/:repoName/topics", isAuth, reposTopicsController.updateRepoTopics);
 
 router.delete(
   "/:repoName/topics",

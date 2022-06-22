@@ -61,7 +61,7 @@ const getReposOfUser = async (req, res, next) => {
         starFilter = "response.data[i].stargazers_count" + starList[0].slice(5);
       }
 
-      if (starList.length > 0) {
+      if (forkList.length > 0) {
         starFilter = "response.data[i].forks_count" + forkList[0].slice(5);
       }
     }
@@ -148,9 +148,87 @@ const getRepoStargazers = async (req, res, next) => {
   }
 };
 
+const filterReposWithCommits = async (req, res, next) => {
+  try {
+    const octokit = req.octokit;
+
+    const username = req.query.username;
+    const filters = req.query.filters;
+    const affiliation = req.query.affiliation;
+    const byOwner = req.query.byOwner || false;
+    let days = req.query.days || 10;
+
+    if (typeof days === "string") {
+      days = Number.parseInt(days);
+    }
+
+    let commitsSince = new Date();
+    commitsSince.setDate(commitsSince.getDate() - days);
+    commitsSince.setHours(0);
+    commitsSince.setMinutes(0);
+    commitsSince.setSeconds(0);
+    commitsSince = commitsSince.toISOString();
+
+    let response;
+
+    if (username) {
+      response = await octokit.request("GET /users/{owner}/repos", {
+        owner: username,
+        affiliation: affiliation,
+      });
+    } else {
+      response = await octokit.request("GET /user/repos", {
+        affiliation: affiliation,
+      });
+    }
+
+    if (!response || !response.data) {
+      throw new CustomAPIError("Repositories not found", StatusCodes.NOT_FOUND);
+    }
+
+    let commitsFilter = "commits.data.length >= 5";
+
+    if (filters) {
+      const filterList = filters.split(",");
+      const commitFilterList = filterList.filter((filter) =>
+        filter.startsWith("commits")
+      );
+      if (commitFilterList.length > 0) {
+        commitsFilter = "commits.data.length" + commitFilterList[0].slice(7);
+      }
+    }
+
+    const repos = [];
+
+    for (var i = 0; i < response.data.length; i++) {
+      let commits;
+      try {
+        commits = await octokit.request("GET /repos/{owner}/{repo}/commits", {
+          owner: response.data[i].owner.login,
+          repo: response.data[i].name,
+          since: commitsSince,
+          author: byOwner ? response.data[i].owner.login : undefined,
+        });
+      } catch (error) {
+        continue;
+      }
+      console.log(response.data[i].name, commits.data.length);
+      if (!eval(commitsFilter)) continue;
+
+      repos.push(cleanObject(response.data[i]));
+    }
+
+    res.status(StatusCodes.OK).json({ count: repos.length, repos });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = {
   createRepo,
   getReposOfUser,
   getRepoContributors,
   getRepoStargazers,
+  filterReposWithCommits,
 };
