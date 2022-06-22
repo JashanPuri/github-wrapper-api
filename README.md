@@ -2,7 +2,7 @@
 
 ### Steps to run the project
 
-1. run: git clone https://github.com/JashanPuri/cometlabs-assignment.git (To clone the repo)
+1. run: git clone https://github.com/JashanPuri/github-wrapper-api.git (To clone the repo)
 2. run: npm install (to install all the packages mentioned in package.json)
 3. run: npm start (the server will start running on port 3000 by default)
 4. open postman and test
