@@ -25,15 +25,19 @@ const getReposOfUser = async (req, res, next) => {
     const octokit = req.octokit;
 
     const username = req.query.username;
+    const affiliation = req.query.affiliation || "owner";
 
     let response;
 
     if (username) {
       response = await octokit.request("GET /users/{owner}/repos", {
         owner: username,
+        affiliation: affiliation,
       });
     } else {
-      response = await octokit.request("GET /user/repos", {});
+      response = await octokit.request("GET /user/repos", {
+        affiliation: affiliation,
+      });
     }
 
     if (!response || !response.data) {

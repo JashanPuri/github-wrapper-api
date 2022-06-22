@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 
 const reposRoutes = require("./routes/repos");
+const stargazersRoutes = require("./routes/stargazers");
 
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -28,6 +29,7 @@ app.get("/", (req, res, next) =>
 );
 
 app.use("/api/v1/repos", reposRoutes);
+app.use("/api/v1/stargazers", stargazersRoutes);
 
 // handles routes that are not found
 app.use(notFoundMiddleware);
