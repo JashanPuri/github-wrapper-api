@@ -24,13 +24,13 @@ const getReposOfUser = async (req, res, next) => {
   try {
     const octokit = req.octokit;
 
-    const owner = req.query.owner;
+    const username = req.query.username;
 
     let response;
 
-    if (owner) {
+    if (username) {
       response = await octokit.request("GET /users/{owner}/repos", {
-        owner: owner.trim(),
+        owner: username,
       });
     } else {
       response = await octokit.request("GET /user/repos", {});
@@ -57,17 +57,17 @@ const getRepoContributors = async (req, res, next) => {
     const octokit = req.octokit;
 
     const repoName = req.params.repoName;
-    let owner = req.query.owner;
+    let username = req.query.username;
 
-    if (!owner) {
+    if (!username) {
       const resp = await octokit.request("GET /user", {});
-      owner = resp.data.login;
+      username = resp.data.login;
     }
 
     const response = await octokit.request(
       "GET /repos/{owner}/{repo}/contributors",
       {
-        owner: owner,
+        owner: username,
         repo: repoName,
       }
     );
@@ -91,17 +91,17 @@ const getRepoStargazers = async (req, res, next) => {
     const octokit = req.octokit;
 
     const repoName = req.params.repoName;
-    let owner = req.query.owner;
+    let username = req.query.username;
 
-    if (!owner) {
+    if (!username) {
       const resp = await octokit.request("GET /user", {});
-      owner = resp.data.login;
+      username = resp.data.login;
     }
 
     const response = await octokit.request(
       "GET /repos/{owner}/{repo}/stargazers",
       {
-        owner: owner,
+        owner: username,
         repo: repoName,
       }
     );

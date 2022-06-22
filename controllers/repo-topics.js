@@ -5,15 +5,15 @@ const getRepoTopics = async (req, res, next) => {
     const octokit = req.octokit;
 
     const repoName = req.params.repoName;
-    let owner = req.query.owner;
+    let username = req.query.username;
 
-    if (!owner) {
+    if (!username) {
       const resp = await octokit.request("GET /user", {});
-      owner = resp.data.login;
+      username = resp.data.login;
     }
 
     const response = await octokit.request("GET /repos/{owner}/{repo}/topics", {
-      owner: owner,
+      owner: username,
       repo: repoName,
     });
 
@@ -30,17 +30,17 @@ const updateRepoTopics = async (req, res, next) => {
     const octokit = req.octokit;
 
     const repoName = req.params.repoName;
-    let owner = req.params.owner;
+    let username = req.params.username;
 
     const topics = req.body.topics || [];
 
-    if (!owner) {
+    if (!username) {
       const resp = await octokit.request("GET /user", {});
-      owner = resp.data.login;
+      username = resp.data.login;
     }
 
     await octokit.request("PUT /repos/{owner}/{repo}/topics", {
-      owner: owner,
+      owner: username,
       repo: repoName,
       names: topics,
     });
@@ -56,17 +56,17 @@ const deleteRepoTopics = async (req, res, next) => {
     const octokit = req.octokit;
 
     const repoName = req.params.repoName;
-    let owner = req.params.owner;
+    let username = req.params.username;
 
     const topics = [];
 
-    if (!owner) {
+    if (!username) {
       const resp = await octokit.request("GET /user", {});
-      owner = resp.data.login;
+      username = resp.data.login;
     }
 
     await octokit.request("PUT /repos/{owner}/{repo}/topics", {
-      owner: owner,
+      owner: username,
       repo: repoName,
       names: topics,
     });
