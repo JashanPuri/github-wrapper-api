@@ -1,6 +1,7 @@
 const CustomAPIError = require("../models/custom-api-error");
 const { StatusCodes } = require("http-status-codes");
 
+// error handling for incoming errors
 const errorHandlerMiddleware = (err, req, res, next) => {
   if (err.message === "Bad credentials") {
     err = new CustomAPIError(err.message, StatusCodes.UNAUTHORIZED);

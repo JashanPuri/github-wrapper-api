@@ -7,8 +7,10 @@ const stargazersRoutes = require("./routes/stargazers");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
+// initializing express app
 const app = express();
 
+// json body parsing of incoming requests
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -24,11 +26,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res, next) =>
-  res.send("Cometlabs Assignment - Github API wrapper")
-);
+// home route
+app.get("/", (req, res, next) => res.send("Github API wrapper"));
 
+// routes corresponding to repositories of user
 app.use("/api/v1/repos", reposRoutes);
+
+// routes cooresponding to stargazers of a user
 app.use("/api/v1/stargazers", stargazersRoutes);
 
 // handles routes that are not found
@@ -37,6 +41,7 @@ app.use(notFoundMiddleware);
 // error handling middleware
 app.use(errorHandlerMiddleware);
 
+// port for server
 port = process.env.PORT || 3000;
 
 const start = () => {
@@ -49,4 +54,5 @@ const start = () => {
   }
 };
 
+// starting the server
 start();

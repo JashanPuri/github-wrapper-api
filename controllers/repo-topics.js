@@ -12,6 +12,7 @@ const getRepoTopics = async (req, res, next) => {
       username = resp.data.login;
     }
 
+    // getting the topics of the repo
     const response = await octokit.request("GET /repos/{owner}/{repo}/topics", {
       owner: username,
       repo: repoName,
@@ -39,6 +40,7 @@ const updateRepoTopics = async (req, res, next) => {
       username = resp.data.login;
     }
 
+    // updating the topics
     await octokit.request("PUT /repos/{owner}/{repo}/topics", {
       owner: username,
       repo: repoName,
@@ -65,6 +67,7 @@ const deleteRepoTopics = async (req, res, next) => {
       username = resp.data.login;
     }
 
+    // deleting the topics
     await octokit.request("PUT /repos/{owner}/{repo}/topics", {
       owner: username,
       repo: repoName,

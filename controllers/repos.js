@@ -8,12 +8,14 @@ const createRepo = async (req, res, next) => {
 
     const { name, description, private } = req.body;
 
+    // creating the repo for the user
     const response = await octokit.request("POST /user/repos", {
       name: name,
       description: description || "",
       private: private || true,
     });
 
+    // cleaning the object
     const repository = cleanObject(response);
 
     res.status(StatusCodes.CREATED).json({ repository });
@@ -25,7 +27,17 @@ const getReposOfUser = async (req, res, next) => {
     const octokit = req.octokit;
 
     const username = req.query.username;
+
+    // affiliation defines which all repos should be included
+    // like owner means - only those repos will be included in which the user is an owner
+    // values accepted = owner, collaborator, member
+    // can be passed as a list of comma-seperated values
     const affiliation = req.query.affiliation || "owner";
+
+    // filters for number of stars and forks
+    // example - filters=stars>=5&forks>=5
+    // OR filters=stars==5 or any valid expression as such
+    // double equal-to signs for equality
     const filters = req.query.filters;
 
     let response;
@@ -48,6 +60,7 @@ const getReposOfUser = async (req, res, next) => {
     let starFilter = "response.data[i].stargazers_count >= 0";
     let forksFilter = "response.data[i].forks_count >= 0";
 
+    // creating filter expressions for forks and stars
     if (filters) {
       const filterList = filters.split(",");
       const starList = filterList.filter((filter) =>
@@ -68,6 +81,8 @@ const getReposOfUser = async (req, res, next) => {
 
     const repos = [];
 
+    // applying filtering and adding the repo as a cleaned object
+    // if no filters are passed every repo is taken
     for (var i = 0; i < response.data.length; i++) {
       if (!eval(starFilter)) continue;
 
@@ -94,6 +109,7 @@ const getRepoContributors = async (req, res, next) => {
       username = resp.data.login;
     }
 
+    // getting the repository contributers
     const response = await octokit.request(
       "GET /repos/{owner}/{repo}/contributors",
       {
@@ -128,6 +144,7 @@ const getRepoStargazers = async (req, res, next) => {
       username = resp.data.login;
     }
 
+    // getting the repository stargazers
     const response = await octokit.request(
       "GET /repos/{owner}/{repo}/stargazers",
       {
@@ -152,10 +169,25 @@ const filterReposWithCommits = async (req, res, next) => {
   try {
     const octokit = req.octokit;
 
+    // QUERY PARAMETER:
+
     const username = req.query.username;
+
+    // filters for number of commits
+    // example - filters=commits>5 for greater than 5 commits
+    // OR filters=commits==5 or any valid expression as such
+    // double equal-to signs for equality
     const filters = req.query.filters;
+
+    // same as defined above in getReposOfUser
     const affiliation = req.query.affiliation;
+
+    // boolean value indicating if
+    // commits to be counted should be made by owner or not
     const byOwner = req.query.byOwner || false;
+
+    // number of days since the commits should be counted
+    // days = 10 means commits of last 10 days
     let days = req.query.days || 10;
 
     if (typeof days === "string") {
@@ -188,6 +220,7 @@ const filterReposWithCommits = async (req, res, next) => {
 
     let commitsFilter = "commits.data.length >= 5";
 
+    // creating filter for number of commits
     if (filters) {
       const filterList = filters.split(",");
       const commitFilterList = filterList.filter((filter) =>
@@ -200,9 +233,11 @@ const filterReposWithCommits = async (req, res, next) => {
 
     const repos = [];
 
+    // applying filtering and cleaning and getting the repos
     for (var i = 0; i < response.data.length; i++) {
       let commits;
       try {
+        // getting the commits of the repo
         commits = await octokit.request("GET /repos/{owner}/{repo}/commits", {
           owner: response.data[i].owner.login,
           repo: response.data[i].name,
@@ -212,7 +247,7 @@ const filterReposWithCommits = async (req, res, next) => {
       } catch (error) {
         continue;
       }
-      console.log(response.data[i].name, commits.data.length);
+
       if (!eval(commitsFilter)) continue;
 
       repos.push(cleanObject(response.data[i]));
