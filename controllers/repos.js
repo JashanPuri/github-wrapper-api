@@ -26,6 +26,7 @@ const getReposOfUser = async (req, res, next) => {
 
     const username = req.query.username;
     const affiliation = req.query.affiliation || "owner";
+    const filters = req.query.filters;
 
     let response;
 
@@ -44,9 +45,34 @@ const getReposOfUser = async (req, res, next) => {
       throw new CustomAPIError("Repositories not found", StatusCodes.NOT_FOUND);
     }
 
+    let starFilter = "response.data[i].stargazers_count >= 0";
+    let forksFilter = "response.data[i].forks_count >= 0";
+
+    if (filters) {
+      const filterList = filters.split(",");
+      const starList = filterList.filter((filter) =>
+        filter.startsWith("stars")
+      );
+      const forkList = filterList.filter((filter) =>
+        filter.startsWith("forks")
+      );
+
+      if (starList.length > 0) {
+        starFilter = "response.data[i].stargazers_count" + starList[0].slice(5);
+      }
+
+      if (starList.length > 0) {
+        starFilter = "response.data[i].forks_count" + forkList[0].slice(5);
+      }
+    }
+
     const repos = [];
 
     for (var i = 0; i < response.data.length; i++) {
+      if (!eval(starFilter)) continue;
+
+      if (!eval(forksFilter)) continue;
+
       repos.push(cleanObject(response.data[i]));
     }
 
