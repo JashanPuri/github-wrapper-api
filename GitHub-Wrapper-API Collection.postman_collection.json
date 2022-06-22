@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "7fe43bc2-3983-462e-8527-787264f9f6af",
+		"name": "GitHub-Wrapper-API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14485037"
+	},
+	"item": [
+		{
+			"name": "Get user repositories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos"
+					],
+					"query": [
+						{
+							"key": "affiliation",
+							"value": "owner,collaborator,organization_member",
+							"description": "Comma-separated list of values. Can include: owner, collaborator, organization_member.",
+							"disabled": true
+						},
+						{
+							"key": "username",
+							"value": "Anshu1882000",
+							"description": "Username",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Repository",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Wrapper-Test-2\",\r\n    \"description\": \"test description\",\r\n    \"private\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/repos",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get repository contributors",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/Price_Comparision_App/contributors?username=Anshu1882000",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"Price_Comparision_App",
+						"contributors"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Anshu1882000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get repository stargazers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/supreme-CLIP/stargazers?username=BetaLabs-IIITKottayam",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"supreme-CLIP",
+						"stargazers"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "BetaLabs-IIITKottayam"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get repository topics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/flutter/topics?username=flutter",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"flutter",
+						"topics"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "flutter"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update repository topics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"topics\": [\"topic1\", \"topic2\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/repos/price_comparison_app_UI/topics",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"price_comparison_app_UI",
+						"topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get repository topics after update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/price_comparison_app_UI/topics",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"price_comparison_app_UI",
+						"topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete repository topics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/price_comparison_app_UI/topics",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"price_comparison_app_UI",
+						"topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stargazers with > 2 stars",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/stargazers?username=iiitkottayam&filters=stars>=2",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"stargazers"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "iiitkottayam"
+						},
+						{
+							"key": "filters",
+							"value": "stars>=2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stargazers with == 2 stars",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/stargazers?username=iiitkottayam&filters=stars==2",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"stargazers"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "iiitkottayam"
+						},
+						{
+							"key": "filters",
+							"value": "stars==2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Repos with > 5 commits in last 10 days",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/filter-with-commits?days=10&filters=commits>=5",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"filter-with-commits"
+					],
+					"query": [
+						{
+							"key": "days",
+							"value": "10"
+						},
+						{
+							"key": "byOwner",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "affiliation",
+							"value": "owner",
+							"disabled": true
+						},
+						{
+							"key": "filters",
+							"value": "commits>=5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Repos with > 5 commits in last 10 days with commits done by owner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/repos/filter-with-commits?days=10&byOwner=true&filters=commits>=5",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"filter-with-commits"
+					],
+					"query": [
+						{
+							"key": "days",
+							"value": "10"
+						},
+						{
+							"key": "byOwner",
+							"value": "true"
+						},
+						{
+							"key": "affiliation",
+							"value": "owner",
+							"disabled": true
+						},
+						{
+							"key": "filters",
+							"value": "commits>=5"
+						},
+						{
+							"key": "username",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
